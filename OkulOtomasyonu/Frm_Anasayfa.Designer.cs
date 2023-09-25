@@ -80,7 +80,7 @@
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
             this.ribbonControl1.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2007;
-            this.ribbonControl1.Size = new System.Drawing.Size(1184, 150);
+            this.ribbonControl1.Size = new System.Drawing.Size(1029, 150);
             // 
             // Btn_Anasayfa
             // 
@@ -121,6 +121,7 @@
             this.Btn_Veliler.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("Btn_Veliler.ImageOptions.LargeImage")));
             this.Btn_Veliler.LargeWidth = 60;
             this.Btn_Veliler.Name = "Btn_Veliler";
+            this.Btn_Veliler.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.Btn_Veliler_ItemClick);
             // 
             // Btn_NotGirisi
             // 
@@ -211,6 +212,7 @@
             this.Btn_Ayarlar.ImageOptions.LargeImage = ((System.Drawing.Image)(resources.GetObject("Btn_Ayarlar.ImageOptions.LargeImage")));
             this.Btn_Ayarlar.LargeWidth = 55;
             this.Btn_Ayarlar.Name = "Btn_Ayarlar";
+            this.Btn_Ayarlar.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.Btn_Ayarlar_ItemClick);
             // 
             // Btn_WebSayfasi
             // 
@@ -256,7 +258,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 661);
+            this.ClientSize = new System.Drawing.Size(1029, 661);
             this.Controls.Add(this.ribbonControl1);
             this.IsMdiContainer = true;
             this.Name = "Frm_Anasayfa";

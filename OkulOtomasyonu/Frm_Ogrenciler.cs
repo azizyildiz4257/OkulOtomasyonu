@@ -27,27 +27,41 @@ namespace OkulOtomasyonu
         {
             //5.Sınıf
             DataTable dt1 = new DataTable();
-            SqlDataAdapter da1 = new SqlDataAdapter("Select * From Tbl_Ogrenciler where OgrncSinif='5. Sınıf'", bgl.Baglan());
+            //SqlDataAdapter da1 = new SqlDataAdapter("Select * From Tbl_Ogrenciler where OgrncSinif='5. Sınıf'", bgl.Baglan());
+            SqlDataAdapter da1 = new SqlDataAdapter("Execute OgrenciVeli5", bgl.Baglan());
             da1.Fill(dt1);
             gridControl1.DataSource = dt1;
 
             //6.Sınıf
             DataTable dt2 = new DataTable();
-            SqlDataAdapter da2 = new SqlDataAdapter("Select * From Tbl_Ogrenciler where OgrncSinif='6. Sınıf'", bgl.Baglan());
+            SqlDataAdapter da2 = new SqlDataAdapter("Execute OgrenciVeli6", bgl.Baglan());
+            //SqlDataAdapter da2 = new SqlDataAdapter("Select * From Tbl_Ogrenciler where OgrncSinif='6. Sınıf'", bgl.Baglan());
             da2.Fill(dt2);
             gridControl2.DataSource = dt2;
 
             //7.Sınıf
             DataTable dt3 = new DataTable();
-            SqlDataAdapter da3 = new SqlDataAdapter("Select * From Tbl_Ogrenciler where OgrncSinif='7. Sınıf'", bgl.Baglan());
+            SqlDataAdapter da3 = new SqlDataAdapter("Execute OgrenciVeli7", bgl.Baglan());
+            //SqlDataAdapter da3 = new SqlDataAdapter("Select * From Tbl_Ogrenciler where OgrncSinif='7. Sınıf'", bgl.Baglan());
             da3.Fill(dt3);
             gridControl3.DataSource = dt3;
 
             //8.Sınıf
             DataTable dt4 = new DataTable();
-            SqlDataAdapter da4 = new SqlDataAdapter("Select * From Tbl_Ogrenciler where OgrncSinif='8. Sınıf'", bgl.Baglan());
+            SqlDataAdapter da4 = new SqlDataAdapter("Execute OgrenciVeli8", bgl.Baglan());
+            //SqlDataAdapter da4 = new SqlDataAdapter("Select * From Tbl_Ogrenciler where OgrncSinif='8. Sınıf'", bgl.Baglan());
             da4.Fill(dt4);
             gridControl4.DataSource = dt4;
+        }
+
+        void VeliListesi()      /*Ders 30 8:50*/
+        {
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("Select VeliID,(VeliAnne+' | '+VeliBaba) as VeliAnneBaba from Tbl_Veliler", bgl.Baglan());
+            da.Fill(dt1);
+            LUECmb_Veli.Properties.ValueMember = "VeliID";
+            LUECmb_Veli.Properties.DisplayMember = "VeliAnneBaba";
+            LUECmb_Veli.Properties.DataSource = dt1;
         }
 
         void SehirEkle()
@@ -66,6 +80,7 @@ namespace OkulOtomasyonu
             Listele();
             SehirEkle();
             Temizle();
+            VeliListesi();
         }
 
         private void Cmb_İl_SelectedIndexChanged(object sender, EventArgs e)
@@ -86,7 +101,7 @@ namespace OkulOtomasyonu
         public string cinsiyet;
         private void Btn_Kaydet_Click(object sender, EventArgs e)
         {
-            SqlCommand cmd = new SqlCommand("insert into Tbl_Ogrenciler(OgrncAd,OgrncSoyad,OgrncNo,OgrncSinif,OgrncDogumTarihi,OgrncCinsiyet,OgrncTC,OgrncSehir,OgrncIlce,OgrncAdres,OgrncFoto) values (@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11)", bgl.Baglan());
+            SqlCommand cmd = new SqlCommand("insert into Tbl_Ogrenciler(OgrncAd,OgrncSoyad,OgrncNo,OgrncSinif,OgrncDogumTarihi,OgrncCinsiyet,OgrncTC,OgrncSehir,OgrncIlce,OgrncAdres,OgrncFoto,OgrncVeliID) values (@p1,@p2,@p3,@p4,@p5,@p6,@p7,@p8,@p9,@p10,@p11,@p12)", bgl.Baglan());
             cmd.Parameters.AddWithValue("@p1", Txt_Adi.Text);
             cmd.Parameters.AddWithValue("@p2", Txt_Soyadi.Text);
             cmd.Parameters.AddWithValue("@p3", MskTxt_OgrNo.Text);
@@ -105,6 +120,7 @@ namespace OkulOtomasyonu
             cmd.Parameters.AddWithValue("@p9", Cmb_İlce.Text);
             cmd.Parameters.AddWithValue("@p10", RchTxt_Adres.Text);
             cmd.Parameters.AddWithValue("@p11", Path.GetFileName(yeniyol));
+            cmd.Parameters.AddWithValue("@p12", LUECmb_Veli.EditValue);
 
             cmd.ExecuteNonQuery();
             bgl.Baglan().Close();
@@ -112,7 +128,7 @@ namespace OkulOtomasyonu
             Listele();
         }
 
-        void TextAktarma()
+        void TextAktarma()      /*Sadece 5.Sınınf aktarımı yapıyro kontrol et Ders 32*/
         {
             if (dr != null)
             {
@@ -124,10 +140,12 @@ namespace OkulOtomasyonu
                 Cmb_OgrSinif.Text = dr["OgrncSinif"].ToString();
                 if (dr["OgrncCinsiyet"].ToString() == "E")
                 {
+                    //RBtn_Bayan.Checked = false;
                     RBtn_Erkek.Checked = true;
                 }
-                else if (dr["OgrncCinsiyet"].ToString() == "K")
+                else if (dr["OgrncCinsiyet"].ToString() == "B")
                 {
+                    //RBtn_Erkek.Checked = false;
                     RBtn_Bayan.Checked = true;
                 }
                 Cmb_İl.Text = dr["OgrncSehir"].ToString();
@@ -137,7 +155,7 @@ namespace OkulOtomasyonu
                 yeniyol = "C:\\Users\\Aziz YILDIZ\\source\\repos\\OkulOtomasyonu\\OkulOtomasyonu" + "\\resimler" + dr["OgrncFoto"].ToString();
                 //Pct_Resim.Image = Image.FromFile(yeniyol); 
                 PctBox_Resim.ImageLocation = yeniyol;
-
+                LUECmb_Veli.Text = dr["VeliAnneBaba"].ToString();
             }
         }
 
@@ -159,6 +177,7 @@ namespace OkulOtomasyonu
         }
 
         DataRow dr;
+
         private void Grd_5sinif_FocusedRowObjectChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowObjectChangedEventArgs e)
         {
             dr = Grd_5sinif.GetDataRow(Grd_5sinif.FocusedRowHandle);  /*İlgili tıklanan satır*/
@@ -200,7 +219,7 @@ namespace OkulOtomasyonu
 
         private void Btn_Guncelle_Click(object sender, EventArgs e)
         {
-            SqlCommand cmd = new SqlCommand("Update Tbl_Ogrenciler set OgrncAd=@p1,OgrncSoyad=@p2,OgrncNo=@p3,OgrncSinif=@p4,OgrncDogumTarihi=@p5,OgrncCinsiyet=@p6,OgrncTC=@p7,OgrncSehir=@p8,OgrncIlce=@p9,OgrncAdres=@p10,OgrncFoto=@p11 where OgrncID=@p12", bgl.Baglan());
+            SqlCommand cmd = new SqlCommand("Update Tbl_Ogrenciler set OgrncAd=@p1,OgrncSoyad=@p2,OgrncNo=@p3,OgrncSinif=@p4,OgrncDogumTarihi=@p5,OgrncCinsiyet=@p6,OgrncTC=@p7,OgrncSehir=@p8,OgrncIlce=@p9,OgrncAdres=@p10,OgrncFoto=@p11, OgrncVeliID=@p13 where OgrncID=@p12", bgl.Baglan());
             cmd.Parameters.AddWithValue("@p1", Txt_Adi.Text);
             cmd.Parameters.AddWithValue("@p2", Txt_Soyadi.Text);
             cmd.Parameters.AddWithValue("@p3", MskTxt_OgrNo.Text);
@@ -220,6 +239,7 @@ namespace OkulOtomasyonu
             cmd.Parameters.AddWithValue("@p10", RchTxt_Adres.Text);
             cmd.Parameters.AddWithValue("@p11", Path.GetFileName(yeniyol));
             cmd.Parameters.AddWithValue("@p12", Txt_ID.Text);
+            cmd.Parameters.AddWithValue("@p13", LUECmb_Veli.EditValue);
             cmd.ExecuteNonQuery();
             bgl.Baglan().Close();
             MessageBox.Show("Öğrenci bilgileri güncellendi.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);

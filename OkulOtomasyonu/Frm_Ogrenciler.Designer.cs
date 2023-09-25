@@ -331,6 +331,7 @@
             this.LUECmb_Veli.Properties.Appearance.Options.UseFont = true;
             this.LUECmb_Veli.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.LUECmb_Veli.Properties.NullText = "Seçiniz...";
             this.LUECmb_Veli.Size = new System.Drawing.Size(146, 20);
             this.LUECmb_Veli.TabIndex = 23;
             // 

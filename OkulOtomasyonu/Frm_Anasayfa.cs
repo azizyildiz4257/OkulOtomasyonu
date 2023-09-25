@@ -38,5 +38,25 @@ namespace OkulOtomasyonu
                 frm_Ogrenciler.Show();
             }
         }
+        Frm_Veliler frm_Veliler;
+        private void Btn_Veliler_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (frm_Veliler == null || frm_Veliler.IsDisposed)
+            {
+                frm_Veliler = new Frm_Veliler();
+                frm_Veliler.MdiParent = this;
+                frm_Veliler.Show();
+            }
+        }
+        Frm_Ayarlar frm_Ayarlar;
+        private void Btn_Ayarlar_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            if (frm_Ayarlar == null || frm_Ayarlar.IsDisposed)
+            {
+                frm_Ayarlar = new Frm_Ayarlar();
+                frm_Ayarlar.MdiParent = this;
+                frm_Ayarlar.Show();
+            }
+        }
     }
 }
